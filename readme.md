@@ -18,13 +18,16 @@ This is the backend component of a sports management website. It is built using 
 ## Installation
 
 1. Clone the repository:
-   git clone <repository-url>
+
+   `git clone <repository-url>`
 
 2. Change into the project directory:
-   cd sports-management-backend
+
+   `cd sports-management-backend`
 
 3. Install the required dependencies:
-   pip install -r requirements.txt
+
+   `pip install -r requirements.txt`
 
 4. Configure the database:
 
@@ -32,7 +35,8 @@ This is the backend component of a sports management website. It is built using 
 - Create a MySQL database and ensure the connection details are correct.
 
 5. Run the application:
-   uvicorn index:app --reload
+
+   `uvicorn index:app --reload`
 
 The backend server should now be running on `http://localhost:8000`.
 

@@ -9,7 +9,7 @@ class Student(BaseModel):
     name: str
     email: str
     
-class Games(BaseModel):
+class Game(BaseModel):
     name: str
 
 class Organizer(BaseModel):
@@ -38,11 +38,6 @@ class Teams(BaseModel):
 class Team_Members(BaseModel):
     student_id: int
     team_id: int
-
-class Registrations(BaseModel):
-    team_id: int
-    tournament_id: int
-    isApproved: bool
     
 class Matches(BaseModel):
     team_id1: int

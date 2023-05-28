@@ -72,6 +72,8 @@ class Teams(Base):
     tournament = relationship("Tournaments")
     creator_id = Column(Integer, ForeignKey("students.id", ondelete="CASCADE"), nullable=False)
     creator = relationship("Students")
+    team_members = relationship("Team_Members", back_populates="team")
+    isApproved = Column(Boolean, default=False)
     createdAt = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Team_Members(Base):
@@ -80,17 +82,10 @@ class Team_Members(Base):
     student_id = Column(Integer, ForeignKey("students.id", ondelete="CASCADE"), nullable=False)
     student = relationship("Students")
     team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
-
-class Registrations(Base):
-    __tablename__ = "registrations"
-    id = Column(Integer, primary_key=True, index=True)
-    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
-    team = relationship("Teams")
-    tournament_id = Column(Integer, ForeignKey("tournaments.id", ondelete="CASCADE"), nullable=False)
-    tournament = relationship("Tournaments")
-    isApproved = Column(Boolean, default=False)
+    team = relationship("Teams", back_populates="team_members")
     createdAt = Column(DateTime, default=datetime.datetime.utcnow)
     
+
 class Matches(Base):
     __tablename__ = "matches"
     id = Column(Integer, primary_key=True, index=True)

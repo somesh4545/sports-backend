@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
-from models.index import Organizers
-from schemas.index import Organizer
+from models.index import Organizers, Tournaments
+from schemas.index import Organizer, Tournament
 from sqlalchemy.orm import Session 
 from fastapi import Depends
 from config.db import get_db
@@ -26,5 +26,3 @@ async def get_org_by_id(id, db: Session = Depends(get_db)):
     if org is None:
         raise HTTPException(status_code=404, detail="No organization found")
     return org
-
-
