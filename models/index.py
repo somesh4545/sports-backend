@@ -95,6 +95,8 @@ class Matches(Base):
     team_2 = relationship("Teams", foreign_keys=[team_id2])
     winner_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=True)
     winner = relationship("Teams", foreign_keys=[winner_id])
+    tournament_id =  Column(Integer, ForeignKey("tournaments.id", ondelete="CASCADE"), nullable=False)
+    tournament = relationship("Tournaments")
     date = Column(DateTime, nullable=False)
     
 class Scores(Base):

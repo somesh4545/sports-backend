@@ -40,12 +40,18 @@ async def join_tournament(tournament_id: int, student_id: int, team_name: str, d
     db.add(team_obj)
     db.commit()
     db.refresh(team_obj)
+    
+    team_info = {
+        "id": team_obj.id,
+        "name": team_obj.name,
+        "members_count": team_obj.members_count,
+    }
 
     team_members = Team_Members(student_id = student_id, team_id=team_obj.id)
     db.add(team_members)
     db.commit()
     db.refresh(team_members)
 
-    return team_obj
+    return team_info
 
 
