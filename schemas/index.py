@@ -50,9 +50,13 @@ class Scores(BaseModel):
     team2_score: int
     match_id: int
 
-class Knockouts(BaseModel):
-    tournament_id: int
-    team_id: int
-    position: int
-    stage: int
+# class Knockouts(BaseModel):
+#     tournament_id: int
+#     team_id: int
+#     position: int
+#     stage: int
 
+class Score(BaseModel):
+    team1_score: int
+    team2_score: int
+    match_id: int

@@ -97,6 +97,7 @@ class Matches(Base):
     winner = relationship("Teams", foreign_keys=[winner_id])
     tournament_id =  Column(Integer, ForeignKey("tournaments.id", ondelete="CASCADE"), nullable=False)
     tournament = relationship("Tournaments")
+    round_number = Column(Integer, default=1, nullable=False)
     date = Column(DateTime, nullable=False)
     
 class Scores(Base):
@@ -107,13 +108,22 @@ class Scores(Base):
     match_id = Column(Integer, ForeignKey("matches.id", ondelete="CASCADE"), nullable=False)
     match = relationship("Matches")
 
-class Knockouts(Base):
-    __tablename__ = "knockouts"
+class Rounds(Base):
+    __tablename__ = "rounds"
     id = Column(Integer, primary_key=True, index=True)
     tournament_id =  Column(Integer, ForeignKey("tournaments.id", ondelete="CASCADE"), nullable=False)
     tournament = relationship("Tournaments")
-    team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
-    team = relationship("Teams")
-    position = Column(Integer)
-    stage = Column(Integer)
+    round_no = Column(Integer, default=1, nullable=False)
+    no_teams = Column(Integer, nullable=False)
+    no_matches = Column(Integer, default=1, nullable=False)
+
+# class Knockouts(Base):
+#     __tablename__ = "knockouts"
+#     id = Column(Integer, primary_key=True, index=True)
+#     tournament_id =  Column(Integer, ForeignKey("tournaments.id", ondelete="CASCADE"), nullable=False)
+#     tournament = relationship("Tournaments")
+#     team_id = Column(Integer, ForeignKey("teams.id", ondelete="CASCADE"), nullable=False)
+#     team = relationship("Teams")
+#     position = Column(Integer)
+#     stage = Column(Integer)
 
