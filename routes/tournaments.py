@@ -84,17 +84,23 @@ async def create_tournament_fixtures(id, db: Session = Depends(get_db)):
 
     return {"msg": "fixtures created successfully"}
 
-@tournamentsRouter.get('{id}/fixtures')
+@tournamentsRouter.get('/{id}/fixtures')
 async def get_tournament_fixtures(id, db: Session = Depends(get_db)):
-    matches = db.query(Matches).filter(Matches.tournament_id==id).order_by(Matches.round_number.desc()).all()
+    matches = db.query(Matches).filter(Matches.tournament_id==id).options(joinedload(Matches.team_1).load_only(Teams.name), joinedload(Matches.team_2).load_only(Teams.name)).order_by(Matches.round_number.desc()).all()
 
     if matches is None:
         raise HTTPException(status_code=404, detail="fixtures not found")
     
     return matches
 
-@tournamentsRouter.post('{id}/match/{match_id}')
-async def match_result(id, match_id, winner_id: int, db: Session=Depends(get_db)):
+@tournamentsRouter.post('/{id}/match/{match_id}')
+async def match_result(id, match_id, scores: Score, winner_id: int, db: Session=Depends(get_db)):
+    score_obj = Scores(**scores.dict())
+
+    db.add(score_obj)
+    db.commit()
+    db.refresh(score_obj)
+
     match = db.query(Matches).filter(Matches.id == match_id).first()
 
     if match is None:
@@ -125,23 +131,19 @@ async def match_result(id, match_id, winner_id: int, db: Session=Depends(get_db)
 
         db.commit()
 
-@tournamentsRouter.get('{id}/match/{match_id}/score')
+
+@tournamentsRouter.get('/{id}/match/{match_id}/score')
 async def get_match_score(id, match_id, db: Session=Depends(get_db)):
     score = db.query(Scores).options(joinedload(Scores.match)).filter(Scores.match_id==match_id).first()
     if score is None:
         raise HTTPException(status_code=404, detail="score not found")
     return score
 
-@tournamentsRouter.post('{id}/match/{match_id}/score')
-async def post_match_score(id, match_id,scores: Score, db: Session=Depends(get_db)):
-    score_obj = Scores(**scores.dict())
 
-    db.add(score_obj)
-    db.commit()
-    db.refresh(score_obj)
-    
-    return score_obj
 
+@tournamentsRouter.get('/{tournament_id}/points_table')
+async def get_pointsa_table(tournament_id, db: Session = Depends(get_db)):
+    pass
 
 
 

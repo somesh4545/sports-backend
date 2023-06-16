@@ -22,7 +22,7 @@ async def get_team_by_id(id, db: Session = Depends(get_db)):
 @teamsRouter.post('/{id}/status')
 async def approve_team(id, isApprove: bool,  db: Session = Depends(get_db)):
     team = db.query(Teams).filter(Teams.id==id).first()
-    if team is None:
+    if team is None: 
         raise HTTPException(status_code=404, detail="Team not found")
     
     count_of_teams_approved = db.query(Teams).filter(Teams.tournament_id==team.tournament_id, Teams.isApproved==True).count()
